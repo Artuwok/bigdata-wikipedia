@@ -1,4 +1,4 @@
-package com.rialto.configuration;
+package com.rialto.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -6,18 +6,19 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
  * Base configuration of dispatcherServlet in annotation style
  */
 public class RialtoWebApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+
+    @Override
+    protected String[] getServletMappings() {
+        return new String[]{"/"};
+    }
+
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[]{AppConfig.class};
+        return new Class<?>[]{RootConfig.class};
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
         return new Class<?>[]{WebAppConfig.class};
-    }
-
-    @Override
-    protected String[] getServletMappings() {
-        return new String[]{"/"};
     }
 }
