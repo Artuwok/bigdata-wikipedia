@@ -3,6 +3,7 @@ package com.rialto.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -15,7 +16,6 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @EnableWebMvc
 @ComponentScan("com.rialto")
 public class WebAppConfig extends WebMvcConfigurerAdapter {
-
     /**
      * Steps to initialize and setup view resolver
      * 1. Use internal resource view resolver
@@ -24,11 +24,10 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
      * 4. http://stackoverflow.com/questions/21229839/spring-mvc-unable-to-access-html-page-via-internalresourceviewresolver
      */
 
-
     @Bean
     public ViewResolver getViewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-        resolver.setPrefix("/html/");
+        resolver.setPrefix("/");
         resolver.setSuffix(".html");
         return resolver;
     }
@@ -41,7 +40,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/*.html").addResourceLocations("/html/");
+        registry.addResourceHandler("/*.html").addResourceLocations("/");
     }
 }
 
