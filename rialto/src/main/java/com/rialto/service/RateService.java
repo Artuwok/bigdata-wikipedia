@@ -15,6 +15,7 @@ import java.net.URI;
 
 @Service
 public class RateService implements Runnable {
+
     private static final String TRADING_CURRENCIES = "http://webrates.truefx.com/rates/connect.html?f=html";
 
     public String getRates() {
