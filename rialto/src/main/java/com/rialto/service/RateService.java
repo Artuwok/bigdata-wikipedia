@@ -1,44 +1,42 @@
 package com.rialto.service;
 
 
-import org.springframework.http.HttpMethod;
-import org.springframework.http.client.AsyncClientHttpRequest;
-import org.springframework.http.client.AsyncClientHttpRequestFactory;
-import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.http.client.HttpComponentsAsyncClientHttpRequestFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
-import org.springframework.util.concurrent.ListenableFuture;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URI;
+import java.io.IOException;
 
 @Service
 public class RateService implements Runnable {
 
+    static final Logger logger = LogManager.getLogger(RateService.class);
     private static final String TRADING_CURRENCIES = "http://webrates.truefx.com/rates/connect.html?f=html";
 
-    public String getRates() {
+    public void getRates() {
 
-        String line = null;
+        Document doc = null;
         try {
-            AsyncClientHttpRequestFactory asyncFactory = new HttpComponentsAsyncClientHttpRequestFactory();
-            URI uri = new URI(TRADING_CURRENCIES);
-            AsyncClientHttpRequest request = asyncFactory.createAsyncRequest(uri, HttpMethod.GET);
-            ListenableFuture<ClientHttpResponse> future = request.executeAsync();
-            ClientHttpResponse response = future.get();
-            System.out.println(response.getStatusCode());
+            doc = Jsoup.connect(TRADING_CURRENCIES).get();
 
-            BufferedReader bf = new BufferedReader(new InputStreamReader(response.getBody()));
+            Element table = doc.select("table").get(0); //select the first table.
+            Elements rows = table.select("tr");
 
-            while ((line = bf.readLine()) != null) {
-                System.out.println(line);
+            for (Element currentRow : rows) { // Getting Rows
+                Element row = currentRow;
+                System.out.println("row: " + row);
+                Elements cols = row.select("td");
+                for (Element column : cols) {
+                    System.out.println(column.text());
+                }
             }
-
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        return line;
     }
 
 
@@ -47,7 +45,7 @@ public class RateService implements Runnable {
         while (true) {
             getRates();
             try {
-                Thread.sleep(1000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
