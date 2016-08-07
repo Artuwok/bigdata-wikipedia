@@ -7,9 +7,6 @@ public class AppRun {
 
     public static void main(String[] args) {
 
-        RateService rateService = new RateService();
-
-        new Thread(rateService).start();
-
+        RateServiceImpl rateServiceImpl = new RateServiceImpl();
     }
 }

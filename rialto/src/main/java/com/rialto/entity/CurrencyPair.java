@@ -3,8 +3,8 @@ package com.rialto.entity;
 public class CurrencyPair {
 
     private String pair;
-    private long bid;
-    private long ask;
+    private float bid;
+    private float ask;
     private long time;
 
     public String getPair() {
@@ -15,19 +15,19 @@ public class CurrencyPair {
         this.pair = pair;
     }
 
-    public long getBid() {
+    public float getBid() {
         return bid;
     }
 
-    public void setBid(long bid) {
+    public void setBid(float bid) {
         this.bid = bid;
     }
 
-    public long getAsk() {
+    public float getAsk() {
         return ask;
     }
 
-    public void setAsk(long ask) {
+    public void setAsk(float ask) {
         this.ask = ask;
     }
 
@@ -37,5 +37,16 @@ public class CurrencyPair {
 
     public void setTime(long time) {
         this.time = time;
+    }
+
+
+    @Override
+    public String toString() {
+        return "CurrencyPair{ " +
+                "pair='" + pair + '\'' +
+                ", bid=" + bid +
+                ", ask=" + ask +
+                ", time=" + time +
+                '}';
     }
 }
